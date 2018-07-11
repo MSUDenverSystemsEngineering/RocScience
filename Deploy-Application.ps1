@@ -1,6 +1,11 @@
 ﻿<#
 .SYNOPSIS
 	This script performs the installation or uninstallation of an application(s).
+	# LICENSE #
+	PowerShell App Deployment Toolkit - Provides a set of functions to perform common application deployment tasks on Windows.
+	Copyright (C) 2017 - Sean Lillis, Dan Cunningham, Muhammad Mashwani, Aman Motazedian.
+	This program is free software: you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation, either version 3 of the License, or any later version. This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+	You should have received a copy of the GNU Lesser General Public License along with this program. If not, see <http://www.gnu.org/licenses/>.
 .DESCRIPTION
 	The script is provided as a template to perform an install or uninstall of an application(s).
 	The script either performs an "Install" deployment type or an "Uninstall" deployment type.
@@ -29,10 +34,12 @@
 	60000 - 68999: Reserved for built-in exit codes in Deploy-Application.ps1, Deploy-Application.exe, and AppDeployToolkitMain.ps1
 	69000 - 69999: Recommended for user customized exit codes in Deploy-Application.ps1
 	70000 - 79999: Recommended for user customized exit codes in AppDeployToolkitExtensions.ps1
-.LINK 
+.LINK
 	http://psappdeploytoolkit.com
 #>
 [CmdletBinding()]
+## Suppress PSScriptAnalyzer errors for not using declared variables during AppVeyor build
+[Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseDeclaredVarsMoreThanAssignments", "", Justification="Suppresses AppVeyor errors on informational variables below")]
 Param (
 	[Parameter(Mandatory=$false)]
 	[ValidateSet('Install','Uninstall')]
@@ -50,42 +57,42 @@ Param (
 
 Try {
 	## Set the script execution policy for this process
-	Try { Set-ExecutionPolicy -ExecutionPolicy 'ByPass' -Scope 'Process' -Force -ErrorAction 'Stop' } Catch {Write-Error -Message "Unable to set the PowerShell Execution Policy to Bypass for this process."}
-	
+	Try { Set-ExecutionPolicy -ExecutionPolicy 'ByPass' -Scope 'Process' -Force -ErrorAction 'Stop' } Catch { Write-Error "Failed to set the execution policy to Bypass for this process." }
+
 	##*===============================================
 	##* VARIABLE DECLARATION
 	##*===============================================
 	## Variables: Application
-	[string]$appVendor = 'RocScience'
-	[string]$appName = 'Suite'
-	[string]$appVersion = '2016'
+	[string]$appVendor = 'RocScience Suite'
+	[string]$appName = ''
+	[string]$appVersion = '2018'
 	[string]$appArch = 'x86'
 	[string]$appLang = 'EN'
 	[string]$appRevision = '01'
-	[string]$appScriptVersion = '1.0.0'
-	[string]$appScriptDate = '05/17/2017'
-	[string]$appScriptAuthor = 'Quan Tran'
+	[string]$appScriptVersion = '3.7.0.1'
+	[string]$appScriptDate = '06/22/2018'
+	[string]$appScriptAuthor = 'MSU Denver'
 	##*===============================================
 	## Variables: Install Titles (Only set here to override defaults set by the toolkit)
 	[string]$installName = ''
 	[string]$installTitle = ''
-	
+
 	##* Do not modify section below
 	#region DoNotModify
-	
+
 	## Variables: Exit Code
 	[int32]$mainExitCode = 0
-	
+
 	## Variables: Script
 	[string]$deployAppScriptFriendlyName = 'Deploy Application'
-	[version]$deployAppScriptVersion = [version]'3.6.9'
-	[string]$deployAppScriptDate = '02/12/2017'
+	[version]$deployAppScriptVersion = [version]'3.7.0'
+	[string]$deployAppScriptDate = '02/13/2018'
 	[hashtable]$deployAppScriptParameters = $psBoundParameters
-	
+
 	## Variables: Environment
 	If (Test-Path -LiteralPath 'variable:HostInvocation') { $InvocationInfo = $HostInvocation } Else { $InvocationInfo = $MyInvocation }
 	[string]$scriptDirectory = Split-Path -Path $InvocationInfo.MyCommand.Definition -Parent
-	
+
 	## Dot source the required App Deploy Toolkit Functions
 	Try {
 		[string]$moduleAppDeployToolkitMain = "$scriptDirectory\AppDeployToolkit\AppDeployToolkitMain.ps1"
@@ -98,94 +105,65 @@ Try {
 		## Exit the script, returning the exit code to SCCM
 		If (Test-Path -LiteralPath 'variable:HostInvocation') { $script:ExitCode = $mainExitCode; Exit } Else { Exit $mainExitCode }
 	}
-	
+
 	#endregion
 	##* Do not modify section above
 	##*===============================================
 	##* END VARIABLE DECLARATION
 	##*===============================================
-		
+
 	If ($deploymentType -ine 'Uninstall') {
 		##*===============================================
 		##* PRE-INSTALLATION
 		##*===============================================
 		[string]$installPhase = 'Pre-Installation'
-		
-		## Show Welcome Message, close Internet Explorer if required, allow up to 3 deferrals, verify there is enough disk space to complete the install, and persist the prompt
-		Show-InstallationWelcome -CheckDiskSpace -PersistPrompt
-		
+
+		## Show Welcome Message, close Internet Explorer if needed, verify there is enough disk space to complete the install, and persist the prompt
+		Show-InstallationWelcome -CloseApps 'iexplore' -CheckDiskSpace -PersistPrompt
+
 		## Show Progress Message (with the default message)
 		Show-InstallationProgress
-		
+
 		## <Perform Pre-Installation tasks here>
+
 		Copy-File -Path "$dirFiles\setup.iss" -Destination "C:\"
 
 		Copy-File -Path "$dirFiles\uninstall.iss" -Destination "C:\"
-		
+
 		##*===============================================
-		##* INSTALLATION 
+		##* INSTALLATION
 		##*===============================================
 		[string]$installPhase = 'Installation'
-		
+
 		## Handle Zero-Config MSI Installations
 		If ($useDefaultMsi) {
 			[hashtable]$ExecuteDefaultMSISplat =  @{ Action = 'Install'; Path = $defaultMsiFile }; If ($defaultMstFile) { $ExecuteDefaultMSISplat.Add('Transform', $defaultMstFile) }
 			Execute-MSI @ExecuteDefaultMSISplat; If ($defaultMspFiles) { $defaultMspFiles | ForEach-Object { Execute-MSI -Action 'Patch' -Path $_ } }
 		}
-		
+
 		## <Perform Installation tasks here>
-		Execute-Process -Path "$dirFiles\rss1049n10s.exe" -Arguments "/s /a /s /f1c:\setup.iss" -WindowStyle 'Hidden'
-		
+
+		$exitCode = Execute-Process -Path "$dirFiles\rss1069m30s.exe" -Parameters "/s /a /s /f1c:\setup.iss" -WindowStyle "Hidden" -PassThru
+        If (($exitCode.ExitCode -ne "0") -and ($mainExitCode -ne "3010")) { $mainExitCode = $exitCode.ExitCode }
+
         Copy-File -Path "$dirSupportFiles\hasplm.ini" -Destination "$envProgramFilesx86\Common Files\Aladdin Shared\HASP\hasplm.ini"
 
         Execute-Process -Path "$envProgramFiles\Internet Explorer\iexplore.exe" -Parameters "http://localhost:1947" -NoWait
+
+        ##$exitCode = Execute-Process -Path "Setup.exe" -Parameters "/v`"/qn REBOOT=reallysuppress`"" -WindowStyle "Hidden" -PassThru
+        ##If (($exitCode.ExitCode -ne "0") -and ($mainExitCode -ne "3010")) { $mainExitCode = $exitCode.ExitCode }
 
 		##*===============================================
 		##* POST-INSTALLATION
 		##*===============================================
 		[string]$installPhase = 'Post-Installation'
-		
+
 		## <Perform Post-Installation tasks here>
-		Show-InstallationWelcome -CloseApps 'iexplore' -CloseAppsCountdown 300
-		
-		##Stop-Process -Name 'iexplore.exe' -force
-
-		##Update Dips
-		##Copy-File -Path "$dirSupportFiles\Dips\setup.iss" -Destination "C:\setup.iss"
-        ##Execute-Process -Path "$dirSupportFiles\Dips\dp7009j22s.exe" -Arguments "/s /a /s /f1`"c:\setup.iss`"" -WaitForMsiExec:$true
-
-        ##Update RS3
-        ##Copy-File -Path "$dirSupportFiles\RS3\setup.iss" -Destination "C:\setup.iss"
-        ##Execute-Process -Path "$dirSupportFiles\RS3\rs3u1022f03s.exe" -Arguments "/s /a /s /f1`"c:\setup.iss`"" -WaitForMsiExec:$true
-
-        ##Update RS2
-        ##Copy-File -Path "$dirSupportFiles\RS2\setup.iss" -Destination "C:\setup.iss"
-        ##Execute-Process -Path "$dirSupportFiles\RS2\rs29022j22s.exe" -Arguments "/s /a /s /f1`"c:\setup.iss`"" -WaitForMsiExec:$true
-
-        
-        ##Update Slide
-        ##Copy-File -Path "$dirSupportFiles\Slide\setup.iss" -Destination "C:\setup.iss"
-        ##Execute-Process -Path "$dirSupportFiles\Slide\sl7025j22s.exe" -Arguments "/s /a /s /f1`"c:\setup.iss`"" -WaitForMsiExec:$true
-        
-        ##Update RSPile
-        ##Copy-File -Path "$dirSupportFiles\RSPile\setup.iss" -Destination "C:\setup.iss"
-        ##Execute-Process -Path "$dirSupportFiles\RSPile\rsp1005m03s.exe" -Arguments "/s /a /s /f1`"c:\setup.iss`"" -WaitForMsiExec:$true
-
-        ##Update Swedge
-        ##Copy-File -Path "$dirSupportFiles\Swedge\setup.iss" -Destination "C:\setup.iss"
-        ##Execute-Process -Path "$dirSupportFiles\Swedge\sw6014a18s.exe" -Arguments "/s /a /s /f1`"c:\setup.iss`"" -WaitForMsiExec:$true
-        
-        ##Update Unwedge
-        ##Copy-File -Path "$dirSupportFiles\Unwedge\setup.iss" -Destination "C:\setup.iss"
-        ##Execute-Process -Path "$dirSupportFiles\Unwedge\uw4019j22s.exe" -Arguments "/s /a /s /f1`"c:\setup.iss`"" -WaitForMsiExec:$true
-
-        ##Execute-Process -Path "$envWinDir\System32\setx.exe" -Parameters "lshost vmwas22.winad.msudenver.edu /M"
-
-        ##Execute-Process "cscript.exe" -Parameters "taskkill /IM iexplore.exe /F"
 
 		## Display a message at the end of the install
-        
-		If (-not $useDefaultMsi) {}
+		If (-not $useDefaultMsi) {
+
+		}
 	}
 	ElseIf ($deploymentType -ieq 'Uninstall')
 	{
@@ -193,44 +171,46 @@ Try {
 		##* PRE-UNINSTALLATION
 		##*===============================================
 		[string]$installPhase = 'Pre-Uninstallation'
-		
+
 		## Show Welcome Message, close Internet Explorer with a 60 second countdown before automatically closing
-		Show-InstallationWelcome
-		
+		Show-InstallationWelcome -CloseApps 'iexplore' -CloseAppsCountdown 60
+
 		## Show Progress Message (with the default message)
 		Show-InstallationProgress
-		
+
 		## <Perform Pre-Uninstallation tasks here>
-		
-		
+
+
 		##*===============================================
 		##* UNINSTALLATION
 		##*===============================================
 		[string]$installPhase = 'Uninstallation'
-		
+
 		## Handle Zero-Config MSI Uninstallations
 		If ($useDefaultMsi) {
 			[hashtable]$ExecuteDefaultMSISplat =  @{ Action = 'Uninstall'; Path = $defaultMsiFile }; If ($defaultMstFile) { $ExecuteDefaultMSISplat.Add('Transform', $defaultMstFile) }
 			Execute-MSI @ExecuteDefaultMSISplat
 		}
-		
+
 		# <Perform Uninstallation tasks here>
-		Execute-Process -Path "$dirFiles\rss1049n10s.exe" -Arguments "/s /a /s /uninstall /f1c:\uninstall.iss" -WindowStyle 'Hidden'
-		
+
+		$exitCode = Execute-Process -Path "$dirFiles\rss1069m30s.exe" -Parameters "/s /a /s /f1c:\uninstall.iss" -WindowStyle "Hidden" -PassThru
+        If (($exitCode.ExitCode -ne "0") -and ($mainExitCode -ne "3010")) { $mainExitCode = $exitCode.ExitCode }
+
 		##*===============================================
 		##* POST-UNINSTALLATION
 		##*===============================================
 		[string]$installPhase = 'Post-Uninstallation'
-		
+
 		## <Perform Post-Uninstallation tasks here>
-		
-		
+
+
 	}
-	
+
 	##*===============================================
 	##* END SCRIPT BODY
 	##*===============================================
-	
+
 	## Call the Exit-Script function to perform final cleanup operations
 	Exit-Script -ExitCode $mainExitCode
 }
