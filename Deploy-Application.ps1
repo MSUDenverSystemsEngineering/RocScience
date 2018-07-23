@@ -160,6 +160,9 @@ Try {
 
 		## <Perform Post-Installation tasks here>
 
+		$exitCode = Execute-Process -Path "$dirSupportFiles\sl2018016j23s.exe" -Parameters "/s" -WindowStyle "Hidden" -PassThru
+        If (($exitCode.ExitCode -ne "0") -and ($mainExitCode -ne "3010")) { $mainExitCode = $exitCode.ExitCode }
+
 		## Display a message at the end of the install
 		If (-not $useDefaultMsi) {
 
