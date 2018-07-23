@@ -63,8 +63,8 @@ Try {
 	##* VARIABLE DECLARATION
 	##*===============================================
 	## Variables: Application
-	[string]$appVendor = 'RocScience Suite'
-	[string]$appName = ''
+	[string]$appVendor = 'RocScience'
+	[string]$appName = 'Suite'
 	[string]$appVersion = '2018'
 	[string]$appArch = 'x86'
 	[string]$appLang = 'EN'
@@ -119,7 +119,7 @@ Try {
 		[string]$installPhase = 'Pre-Installation'
 
 		## Show Welcome Message, close Internet Explorer if needed, verify there is enough disk space to complete the install, and persist the prompt
-		Show-InstallationWelcome -CloseApps 'iexplore' -CheckDiskSpace -PersistPrompt
+		Show-InstallationWelcome -CloseApps 'iexplore' -CloseAppsCountdown 0 -CheckDiskSpace -PersistPrompt
 
 		## Show Progress Message (with the default message)
 		Show-InstallationProgress
@@ -143,7 +143,7 @@ Try {
 
 		## <Perform Installation tasks here>
 
-		$exitCode = Execute-Process -Path "$dirFiles\rss1069m30s.exe" -Parameters "/s /a /s /f1c:\setup.iss" -WindowStyle "Hidden" -PassThru
+		$exitCode = Execute-Process -Path "$dirFiles\rss1070j17s.exe" -Parameters "/s /a /s /f1c:\setup.iss" -WindowStyle "Hidden" -PassThru
         If (($exitCode.ExitCode -ne "0") -and ($mainExitCode -ne "3010")) { $mainExitCode = $exitCode.ExitCode }
 
         Copy-File -Path "$dirSupportFiles\hasplm.ini" -Destination "$envProgramFilesx86\Common Files\Aladdin Shared\HASP\hasplm.ini"
@@ -160,8 +160,38 @@ Try {
 
 		## <Perform Post-Installation tasks here>
 
-		$exitCode = Execute-Process -Path "$dirSupportFiles\sl2018016j23s.exe" -Parameters "/s" -WindowStyle "Hidden" -PassThru
-        If (($exitCode.ExitCode -ne "0") -and ($mainExitCode -ne "3010")) { $mainExitCode = $exitCode.ExitCode }
+		Show-InstallationWelcome -CloseApps 'iexplore' -CloseAppsCountdown 0
+		
+		##Stop-Process -Name 'iexplore.exe' -force
+
+		##Update Dips
+		##Copy-File -Path "$dirSupportFiles\ISS" -Destination "$envSystemDrive\"
+		##Execute-Process -Path "$dirSupportFiles\Dips\dp7009j22s.exe" -Arguments "/s /a /s /f1c:\ISS\setup.iss" -WaitForMsiExec:$true
+
+        ##Update RS3
+        ##Copy-File -Path "$dirSupportFiles\RS3\setup.iss" -Destination "C:\setup.iss"
+        ##Execute-Process -Path "$dirSupportFiles\RS3\rs3u1022f03s.exe" -Arguments "/s /a /s /f1`"c:\setup.iss`"" -WaitForMsiExec:$true
+
+        ##Update RS2
+        ##Copy-File -Path "$dirSupportFiles\RS2\setup.iss" -Destination "C:\setup.iss"
+        ##Execute-Process -Path "$dirSupportFiles\RS2\rs29022j22s.exe" -Arguments "/s /a /s /f1`"c:\setup.iss`"" -WaitForMsiExec:$true
+
+        
+        ##Update Slide
+        ##Copy-File -Path "$dirSupportFiles\Slide\setup.iss" -Destination "C:\setup.iss"
+        ##Execute-Process -Path "$dirSupportFiles\Slide\sl7025j22s.exe" -Arguments "/s /a /s /f1`"c:\setup.iss`"" -WaitForMsiExec:$true
+        
+        ##Update RSPile
+        ##Copy-File -Path "$dirSupportFiles\RSPile\setup.iss" -Destination "C:\setup.iss"
+        ##Execute-Process -Path "$dirSupportFiles\RSPile\rsp1005m03s.exe" -Arguments "/s /a /s /f1`"c:\setup.iss`"" -WaitForMsiExec:$true
+
+        ##Update Swedge
+        ##Copy-File -Path "$dirSupportFiles\Swedge\setup.iss" -Destination "C:\setup.iss"
+        ##Execute-Process -Path "$dirSupportFiles\Swedge\sw6014a18s.exe" -Arguments "/s /a /s /f1`"c:\setup.iss`"" -WaitForMsiExec:$true
+        
+        ##Update Unwedge
+        ##Copy-File -Path "$dirSupportFiles\Unwedge\setup.iss" -Destination "C:\setup.iss"
+        ##Execute-Process -Path "$dirSupportFiles\Unwedge\uw4019j22s.exe" -Arguments "/s /a /s /f1`"c:\setup.iss`"" -WaitForMsiExec:$true
 
 		## Display a message at the end of the install
 		If (-not $useDefaultMsi) {
