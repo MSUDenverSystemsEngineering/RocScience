@@ -160,40 +160,7 @@ Try {
 
 		## <Perform Post-Installation tasks here>
 
-		Show-InstallationWelcome -CloseApps 'iexplore' -CloseAppsCountdown 0
-		
-		##Stop-Process -Name 'iexplore.exe' -force
 
-		##Update Dips
-		##Copy-File -Path "$dirSupportFiles\ISS" -Destination "$envSystemDrive\"
-		##Execute-Process -Path "$dirSupportFiles\Dips\dp7009j22s.exe" -Arguments "/s /a /s /f1c:\ISS\setup.iss" -WaitForMsiExec:$true
-
-        ##Update RS3
-        ##Copy-File -Path "$dirSupportFiles\RS3\setup.iss" -Destination "C:\setup.iss"
-        ##Execute-Process -Path "$dirSupportFiles\RS3\rs3u1022f03s.exe" -Arguments "/s /a /s /f1`"c:\setup.iss`"" -WaitForMsiExec:$true
-
-        ##Update RS2
-        ##Copy-File -Path "$dirSupportFiles\RS2\setup.iss" -Destination "C:\setup.iss"
-        ##Execute-Process -Path "$dirSupportFiles\RS2\rs29022j22s.exe" -Arguments "/s /a /s /f1`"c:\setup.iss`"" -WaitForMsiExec:$true
-
-        
-        ##Update Slide
-        ##Copy-File -Path "$dirSupportFiles\Slide\setup.iss" -Destination "C:\setup.iss"
-        ##Execute-Process -Path "$dirSupportFiles\Slide\sl7025j22s.exe" -Arguments "/s /a /s /f1`"c:\setup.iss`"" -WaitForMsiExec:$true
-        
-        ##Update RSPile
-        ##Copy-File -Path "$dirSupportFiles\RSPile\setup.iss" -Destination "C:\setup.iss"
-        ##Execute-Process -Path "$dirSupportFiles\RSPile\rsp1005m03s.exe" -Arguments "/s /a /s /f1`"c:\setup.iss`"" -WaitForMsiExec:$true
-
-        ##Update Swedge
-        ##Copy-File -Path "$dirSupportFiles\Swedge\setup.iss" -Destination "C:\setup.iss"
-        ##Execute-Process -Path "$dirSupportFiles\Swedge\sw6014a18s.exe" -Arguments "/s /a /s /f1`"c:\setup.iss`"" -WaitForMsiExec:$true
-        
-        ##Update Unwedge
-        ##Copy-File -Path "$dirSupportFiles\Unwedge\setup.iss" -Destination "C:\setup.iss"
-        ##Execute-Process -Path "$dirSupportFiles\Unwedge\uw4019j22s.exe" -Arguments "/s /a /s /f1`"c:\setup.iss`"" -WaitForMsiExec:$true
-
-		## Display a message at the end of the install
 		If (-not $useDefaultMsi) {
 
 		}
