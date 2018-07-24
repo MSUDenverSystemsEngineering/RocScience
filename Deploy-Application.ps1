@@ -160,7 +160,14 @@ Try {
 
 		## <Perform Post-Installation tasks here>
 
+		##  Copy-File -Path "$dirSupportFiles\ISS" -Destination "C:\"
 
+		## Update Slide 2018
+
+		$exitCode = Execute-Process -Path "$dirSupportFiles\sl2018016j23s.exe" -Parameters `"/s /a /s /f1"$dirSupportFiles\ISS\Slide\setup.iss"`" -WindowStyle "Hidden" -PassThru
+        If (($exitCode.ExitCode -ne "0") -and ($mainExitCode -ne "3010")) { $mainExitCode = $exitCode.ExitCode }
+
+		## End of Post-Install message
 		If (-not $useDefaultMsi) {
 
 		}
