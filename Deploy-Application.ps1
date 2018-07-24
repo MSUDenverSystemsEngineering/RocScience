@@ -160,7 +160,7 @@ Try {
 
 		## <Perform Post-Installation tasks here>
 
-		Show-InstallationProgress -CloseApps "iexplore" -CloseAppsCountdown 0
+		Stop-Process -Name "iexplore" -Force
 
 		Copy-File -Path "$dirSupportFiles\ISS" -Destination "C:\"
 
