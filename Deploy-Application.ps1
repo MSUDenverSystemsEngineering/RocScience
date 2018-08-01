@@ -166,72 +166,72 @@ Try {
 
 		## Update RocTopple
 
-		$exitCode = Execute-Process -Path "$dirSupportFiles\rt1007m11s.exe" -Parameters `"/s /a /s /f1"$dirSupportFiles\ISS\RocTopple\setup.iss"`" -WindowStyle "Hidden" -PassThru
+		$exitCode = Execute-Process -Path "$dirSupportFiles\rt1007m11s.exe" -Parameters "/s /a /s /f1c:\ISS\RocTopple\setup.iss" -WindowStyle "Hidden" -PassThru
         If (($exitCode.ExitCode -ne "0") -and ($mainExitCode -ne "3010")) { $mainExitCode = $exitCode.ExitCode }
 
         ## Update RocData
 
-		$exitCode = Execute-Process -Path "$dirSupportFiles\rd5009m11s.exe" -Parameters `"/s /a /s /f1"$dirSupportFiles\ISS\RocData\setup.iss"`" -WindowStyle "Hidden" -PassThru
+		$exitCode = Execute-Process -Path "$dirSupportFiles\rd5009m11s.exe" -Parameters "/s /a /s /f1c:\ISS\RocData\setup.iss" -WindowStyle "Hidden" -PassThru
         If (($exitCode.ExitCode -ne "0") -and ($mainExitCode -ne "3010")) { $mainExitCode = $exitCode.ExitCode }
 
         ## Update Swedge
 
-		$exitCode = Execute-Process -Path "$dirSupportFiles\sw6017j17s.exe" -Parameters `"/s /a /s /f1"$dirSupportFiles\ISS\Swedge\setup.iss"`" -WindowStyle "Hidden" -PassThru
+		$exitCode = Execute-Process -Path "$dirSupportFiles\sw6017j17s.exe" -Parameters "/s /a /s /f1c:\ISS\Swedge\setup.iss" -WindowStyle "Hidden" -PassThru
         If (($exitCode.ExitCode -ne "0") -and ($mainExitCode -ne "3010")) { $mainExitCode = $exitCode.ExitCode }
 
 		## Update RocPlane
 
-		$exitCode = Execute-Process -Path "$dirSupportFiles\rp3007m11s.exe" -Parameters `"/s /a /s /f1"$dirSupportFiles\ISS\RocPlane\setup.iss"`" -WindowStyle "Hidden" -PassThru
+		$exitCode = Execute-Process -Path "$dirSupportFiles\rp3007m11s.exe" -Parameters "/s /a /s /f1c:\ISS\RocPlane\setup.iss" -WindowStyle "Hidden" -PassThru
         If (($exitCode.ExitCode -ne "0") -and ($mainExitCode -ne "3010")) { $mainExitCode = $exitCode.ExitCode }
 
 		## Update RS2
 
-		$exitCode = Execute-Process -Path "$dirSupportFiles\rs29028m11s.exe" -Parameters `"/s /a /s /f1"$dirSupportFiles\ISS\RS2\setup.iss"`" -WindowStyle "Hidden" -PassThru
+		$exitCode = Execute-Process -Path "$dirSupportFiles\rs29028m11s.exe" -Parameters "/s /a /s /f1c:\ISS\RS2\setup.iss" -WindowStyle "Hidden" -PassThru
         If (($exitCode.ExitCode -ne "0") -and ($mainExitCode -ne "3010")) { $mainExitCode = $exitCode.ExitCode }
 
 		## Update Unwedge
 
-		$exitCode = Execute-Process -Path "$dirSupportFiles\uw4023m11s.exe" -Parameters `"/s /a /s /f1"$dirSupportFiles\ISS\Unwedge\setup.iss"`" -WindowStyle "Hidden" -PassThru
+		$exitCode = Execute-Process -Path "$dirSupportFiles\uw4023m11s.exe" -Parameters "/s /a /s /f1c:\ISS\Unwedge\setup.iss" -WindowStyle "Hidden" -PassThru
         If (($exitCode.ExitCode -ne "0") -and ($mainExitCode -ne "3010")) { $mainExitCode = $exitCode.ExitCode }
 
 		## Update RocSupport
 
-		$exitCode = Execute-Process -Path "$dirSupportFiles\rs4007m11s.exe" -Parameters `"/s /a /s /f1"$dirSupportFiles\ISS\RocSupport\setup.iss"`" -WindowStyle "Hidden" -PassThru
+		$exitCode = Execute-Process -Path "$dirSupportFiles\rs4007m11s.exe" -Parameters "/s /a /s /f1c:\ISS\RocSupport\setup.iss" -WindowStyle "Hidden" -PassThru
         If (($exitCode.ExitCode -ne "0") -and ($mainExitCode -ne "3010")) { $mainExitCode = $exitCode.ExitCode }
 
 		## Update Examine3D
 
-		$exitCode = Execute-Process -Path "$dirSupportFiles\e34104f29s.exe" -Parameters `"/s /a /s /f1"$dirSupportFiles\ISS\Examine3D\setup.iss"`" -WindowStyle "Hidden" -PassThru
+		$exitCode = Execute-Process -Path "$dirSupportFiles\e34104f29s.exe" -Parameters "/s /a /s /f1c:\ISS\Examine3D\setup.iss" -WindowStyle "Hidden" -PassThru
         If (($exitCode.ExitCode -ne "0") -and ($mainExitCode -ne "3010")) { $mainExitCode = $exitCode.ExitCode }
 
 		## Update CPillar
 
-		$exitCode = Execute-Process -Path "$dirSupportFiles\cp4006m11s.exe" -Parameters `"/s /a /s /f1"$dirSupportFiles\ISS\CPillar\setup.iss"`" -WindowStyle "Hidden" -PassThru
+		$exitCode = Execute-Process -Path "$dirSupportFiles\cp4006m11s.exe" -Parameters "/s /a /s /f1c:\ISS\CPillar\setup.iss" -WindowStyle "Hidden" -PassThru
         If (($exitCode.ExitCode -ne "0") -and ($mainExitCode -ne "3010")) { $mainExitCode = $exitCode.ExitCode }
 
 		## Update Dips
 
-		$exitCode = Execute-Process -Path "$dirSupportFiles\dp7013m10s.exe" -Parameters `"/s /a /s /f1"$dirSupportFiles\ISS\Dips\setup.iss"`" -WindowStyle "Hidden" -PassThru
+		$exitCode = Execute-Process -Path "$dirSupportFiles\dp7013m10s.exe" -Parameters "/s /a /s /f1c:\ISS\Dips\setup.iss" -WindowStyle "Hidden" -PassThru
         If (($exitCode.ExitCode -ne "0") -and ($mainExitCode -ne "3010")) { $mainExitCode = $exitCode.ExitCode }
 
 		## Update RocFall
 
-		$exitCode = Execute-Process -Path "$dirSupportFiles\rf6011m11s.exe" -Parameters `"/s /a /s /f1"$dirSupportFiles\ISS\RocFall\setup.iss"`" -WindowStyle "Hidden" -PassThru
+		$exitCode = Execute-Process -Path "$dirSupportFiles\rf6011m11s.exe" -Parameters "/s /a /s /f1c:\ISS\RocFall\setup.iss" -WindowStyle "Hidden" -PassThru
         If (($exitCode.ExitCode -ne "0") -and ($mainExitCode -ne "3010")) { $mainExitCode = $exitCode.ExitCode }
 
         ## Update Settle3D
 
-		$exitCode = Execute-Process -Path "$dirSupportFiles\s34016m11s.exe" -Parameters `"/s /a /s /f1"$dirSupportFiles\ISS\Settle3D\setup.iss"`" -WindowStyle "Hidden" -PassThru
+		$exitCode = Execute-Process -Path "$dirSupportFiles\s34016m11s.exe" -Parameters "/s /a /s /f1c:\ISS\Settle3D\setup.iss" -WindowStyle "Hidden" -PassThru
         If (($exitCode.ExitCode -ne "0") -and ($mainExitCode -ne "3010")) { $mainExitCode = $exitCode.ExitCode }
 
         ## Update RSPile
 
-		$exitCode = Execute-Process -Path "$dirSupportFiles\rsp20182009j17s.exe" -Parameters `"/s /a /s /f1"$dirSupportFiles\ISS\RSPile\setup.iss"`" -WindowStyle "Hidden" -PassThru
+		$exitCode = Execute-Process -Path "$dirSupportFiles\rsp20182009j17s.exe" -Parameters "/s /a /s /f1c:\ISS\RSPile\setup.iss" -WindowStyle "Hidden" -PassThru
         If (($exitCode.ExitCode -ne "0") -and ($mainExitCode -ne "3010")) { $mainExitCode = $exitCode.ExitCode }
 
         ## Update Slide 2018
 
-		$exitCode = Execute-Process -Path "$dirSupportFiles\sl2018016j23s.exe" -Parameters `"/s /a /s /f1"$dirSupportFiles\ISS\Slide\setup.iss"`" -WindowStyle "Hidden" -PassThru
+		$exitCode = Execute-Process -Path "$dirSupportFiles\sl2018016j23s.exe" -Parameters "/s /a /s /f1c:\ISS\Slide\setup.iss" -WindowStyle "Hidden" -PassThru
         If (($exitCode.ExitCode -ne "0") -and ($mainExitCode -ne "3010")) { $mainExitCode = $exitCode.ExitCode }
 
 
