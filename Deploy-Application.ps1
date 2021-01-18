@@ -72,7 +72,7 @@ Try {
 	[string]$appLang = 'EN'
 	[string]$appRevision = '01'
 	[string]$appScriptVersion = '3.8.3'
-	[string]$appScriptDate = '01/18/202X'
+	[string]$appScriptDate = '01/18/2020'
 	[string]$appScriptAuthor = '<David Torres>'
 	##*===============================================
 	## Variables: Install Titles (Only set here to override defaults set by the toolkit)
@@ -127,7 +127,7 @@ Try {
 		Show-InstallationProgress
 
 		## <Perform Pre-Installation tasks here>
-		$exitCode = Execute-Process -Path "$dirFiles\rss1069m30s.exe" -Parameters "/s /a /s /f1c:\uninstall.iss" -WindowStyle "Hidden" -PassThru
+		$exitCode = Execute-Process -Path "$dirFiles\rss1089n09s.exe" -Parameters "/s /a /s /f1c:\uninstall.iss" -WindowStyle "Hidden" -PassThru
         If (($exitCode.ExitCode -ne "0") -and ($mainExitCode -ne "3010")) { $mainExitCode = $exitCode.ExitCode }
 
         Remove-File -Path "C:\install.iss"
