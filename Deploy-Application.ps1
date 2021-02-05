@@ -127,13 +127,17 @@ Try {
 		Show-InstallationProgress
 
 		## <Perform Pre-Installation tasks here>
-		$exitCode = Execute-Process -Path "$dirFiles\rss1070j17s.exe" -Parameters "/s /a /s /f1c:\uninstall.iss" -WindowStyle "Hidden" -PassThru
-        If (($exitCode.ExitCode -ne "0") -and ($mainExitCode -ne "3010")) { $mainExitCode = $exitCode.ExitCode }
+		##$exitCode = Execute-Process -Path "$dirFiles\rss1070j17s" -Parameters "/s /a /s /f1c:\uninstall.iss" -WindowStyle "Hidden" -PassThru
+        ##If (($exitCode.ExitCode -ne "0") -and ($mainExitCode -ne "3010")) { $mainExitCode = $exitCode.ExitCode }
 
-        Remove-File -Path "C:\install.iss"
-        Remove-File -Path "C:\uninstall.iss"
-        Remove-Folder -Path "C:\ISS"
+        ##Remove-File -Path "C:\install.iss"
+        ##Remove-File -Path "C:\uninstall.iss"
+        ##Remove-Folder -Path "C:\ISS"
 
+		Copy-File -Path "$dirFiles\setup.iss" -Destination "C:\"
+
+		Copy-File -Path "$dirFiles\uninstall.iss" -Destination "C:\"
+		
 		##*===============================================
 		##* INSTALLATION
 		##*===============================================
