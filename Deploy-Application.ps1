@@ -127,17 +127,13 @@ Try {
 		Show-InstallationProgress
 
 		## <Perform Pre-Installation tasks here>
-		##$exitCode = Execute-Process -Path "$dirFiles\rss1070j17s" -Parameters "/s /a /s /f1c:\uninstall.iss" -WindowStyle "Hidden" -PassThru
-        ##If (($exitCode.ExitCode -ne "0") -and ($mainExitCode -ne "3010")) { $mainExitCode = $exitCode.ExitCode }
+		$exitCode = Execute-Process -Path "$dirFiles\rss1070j17s.exe" -Parameters "/s /a /s /f1c:\uninstall.iss" -WindowStyle "Hidden" -PassThru
+        If (($exitCode.ExitCode -ne "0") -and ($mainExitCode -ne "3010")) { $mainExitCode = $exitCode.ExitCode }
 
-        ##Remove-File -Path "C:\install.iss"
-        ##Remove-File -Path "C:\uninstall.iss"
-        ##Remove-Folder -Path "C:\ISS"
+        Remove-File -Path "C:\install.iss"
+        Remove-File -Path "C:\uninstall.iss"
+        Remove-Folder -Path "C:\ISS"
 
-		Copy-File -Path "$dirFiles\setup.iss" -Destination "C:\"
-
-		Copy-File -Path "$dirFiles\uninstall.iss" -Destination "C:\"
-		
 		##*===============================================
 		##* INSTALLATION
 		##*===============================================
@@ -260,12 +256,11 @@ Catch {
 	Show-DialogBox -Text $mainErrorMessage -Icon 'Stop'
 	Exit-Script -ExitCode $mainExitCode
 }
-
 # SIG # Begin signature block
 # MIIf2QYJKoZIhvcNAQcCoIIfyjCCH8YCAQExDzANBglghkgBZQMEAgEFADB5Bgor
 # BgEEAYI3AgEEoGswaTA0BgorBgEEAYI3AgEeMCYCAwEAAAQQH8w7YFlLCE63JNLG
-# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCA/P/NZ9GeNCY9e
-# PlzhHmSS5i+Lp5binIkAsOU5kbdm6qCCGZwwggWuMIIElqADAgECAhAHA3HRD3la
+# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCD7wzJONOdprpRU
+# gWVLYGtFlwZ+PGctf4iO0UILRgwEUaCCGZwwggWuMIIElqADAgECAhAHA3HRD3la
 # QHGZK5QHYpviMA0GCSqGSIb3DQEBCwUAMHwxCzAJBgNVBAYTAlVTMQswCQYDVQQI
 # EwJNSTESMBAGA1UEBxMJQW5uIEFyYm9yMRIwEAYDVQQKEwlJbnRlcm5ldDIxETAP
 # BgNVBAsTCEluQ29tbW9uMSUwIwYDVQQDExxJbkNvbW1vbiBSU0EgQ29kZSBTaWdu
@@ -407,29 +402,29 @@ Catch {
 # CxMISW5Db21tb24xJTAjBgNVBAMTHEluQ29tbW9uIFJTQSBDb2RlIFNpZ25pbmcg
 # Q0ECEAcDcdEPeVpAcZkrlAdim+IwDQYJYIZIAWUDBAIBBQCggYQwGAYKKwYBBAGC
 # NwIBDDEKMAigAoAAoQKAADAZBgkqhkiG9w0BCQMxDAYKKwYBBAGCNwIBBDAcBgor
-# BgEEAYI3AgELMQ4wDAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQgkFvzbdCY
-# WQTKUocjbCvmtD1gJFmLoSDIqGl+d0DeBx0wDQYJKoZIhvcNAQEBBQAEggEAB/9I
-# in3M0nfsEWmcJzhg/BihdHB87Stuwi+GgTCDgUSguXEbD+MmPjugoZawHOtX0T/D
-# d6yc3z5cR2w/U60/qVOryAzUjPoGOTzHF7v0j1wApNIJXNEGuer9DdIM7/wlnRBV
-# raZet3AOSFWmQg33QFhHwno6Lrhc3FfXBxgyGkuLa+GPcHyrRky/LrqbiJB9HUSl
-# 0wD0jNai1vN6Wo5HprHCCA6KYGlFVliROquV7FUiksWHG3SBlSZixh5GhlsbLRGy
-# +YHFlj9/Ads9dgk1h2mvaTHnoV3omxkOf3ZKfhjxIBeVyk+r5l3r6+HjpptM+yzu
-# jUMh+ImNaS8hD/q4zaGCA0wwggNIBgkqhkiG9w0BCQYxggM5MIIDNQIBATCBkjB9
+# BgEEAYI3AgELMQ4wDAYKKwYBBAGCNwIBFTAvBgkqhkiG9w0BCQQxIgQg9V63ZCCE
+# SfxfsjHcI61DHco2FPHb1fYVDG/9C90pT0YwDQYJKoZIhvcNAQEBBQAEggEAIero
+# F/v5ALlsE745R+54Yq9H6EXf/VC/DLgx1fTNMt+yKaTmWW7enETREuO5rm2lQxxT
+# dVqKVX11JeNsBZkaqt0WEOnCXVhaibr1Vk7IdmFsmrA1gi6iRbE1DUo9AzqZTxeZ
+# DORliyddlSOxj5I9MRzb0bmGYV4LSR3ZyZsqZeSwu28dO5uBKAc90uS6ogO5m1Jy
+# Es29bt7XjAQMurDrSgmlhP/Ct0T4+6E9zlZZaAv3d2BsFWdvJMqOAojNqDv+1IrZ
+# p7POpymXukIgNXThskPyVQkHcZHy2ctbyJt4xe6Yiq6d0oeNE+WRCaRyr4jZdha9
+# l1+YZiafZGpg3G+dyaGCA0wwggNIBgkqhkiG9w0BCQYxggM5MIIDNQIBATCBkjB9
 # MQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
 # VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxJTAjBgNVBAMT
 # HFNlY3RpZ28gUlNBIFRpbWUgU3RhbXBpbmcgQ0ECEQCMd6AAj/TRsMY9nzpIg41r
 # MA0GCWCGSAFlAwQCAgUAoHkwGAYJKoZIhvcNAQkDMQsGCSqGSIb3DQEHATAcBgkq
-# hkiG9w0BCQUxDxcNMjAxMjE3MjE0MjMxWjA/BgkqhkiG9w0BCQQxMgQw3a7SA0cy
-# g59A9vsk/JFE94BbpxyK3SoDJlGzUv8JkchICk0JpWOBBVa9U2gOtN9eMA0GCSqG
-# SIb3DQEBAQUABIICAAa+mcvb2qj+E2xajVgHIbhryw8oBkEDwm9Sv5pLRR36auvk
-# 27rVfKi7sjZDxKquGpPNzfzmtAbGMJlurpCV81Y5M0zTEc7npVNB3zgWARsYDs8W
-# 1MduH+YY/5ch7BH/7JuSLJl/Ae2qOL7q11DWkl06H+LAtBlU37CgWFYUiJZhbW9n
-# fadIzU3a3ojeek0sX65MfSALtTZu+wrLA3FAqdQUhAXvscAf88VtAF5ieNOx+TKu
-# bMuXSVGuqxbVj4lJoHDtxgZ+f9yNp2VYXOTrt7vL+cJVMXckl/OUfvf5/m+sO1p2
-# yzU+2/QLSBnvX/I07mvMoyU3vzFRrLcIHI0fc/JSx1ZPewa40FHEcskA0hwbJIHU
-# sLqYOZt1wAo3y5dM/4hqxRsj/tu5lVxQHsK7+nbwDi+C+5b7rb+GQ9AvchrN3H62
-# o/uwDN1QaswqY7V1mMo7HB7GtgehHtVM/zv56lBXRLJvpemblpb5mLmHmbywe8uL
-# Vq+2ItVALcVzMfcEiJSqT5AY21/R76WXp8X/eGbtDWVVdWyMpt7aEYK0SVEfGlBk
-# 0xYggbFQtTI9yRDe51/HFCGyrscWi0vw+rPn0R76BjVnq/fz55cx5E1a/21qCHa4
-# ehZw1F75xo4LzezPCmdbNShXccjNnFUCq19N/c02Tz/UeJ1EZ/FH64my6Amt
+# hkiG9w0BCQUxDxcNMjEwMTI2MDI1OTM4WjA/BgkqhkiG9w0BCQQxMgQw7pZI4jix
+# jWMUY+4hA6POvTp+H8S9biqwNjb1tTTFltTQx4ga7cskYMo9o+eFUSElMA0GCSqG
+# SIb3DQEBAQUABIICAHwFxd9da4tDWAfuU+BwdCs1j44DyhOpQ8PbjKGhmQJ1HVYm
+# VnTB8oePJMrTfXqLXCTn/Z5zU4xtOAwYjpYE3DMO7NeHZef7Mm5mQpY8qZbRC/3b
+# Jgvx++aOFtKKVLcnOkz7rez2fx3CL/NNTi7jCU2CscejVdAnX+2HbBgDkeuT0bFC
+# XeMn91a6JVGXQkJ48PxjAyZDoLZqyOjMxEnYNmfuYhDV8oxqItfIi0Cf0weG7fqE
+# BGjJc2GRWqc9HgSf54s30gHW5Hf0/5n+TRq4CxcnJJiyT7mhfisVAS/mm7vf00aY
+# cKH1+yDmXGomKD+QTFVLqEQoQqjB/yTn27MkLCcIBXJssdJzEZQ5RpIaK2BjjNc2
+# hPkKHxINgYgaW8bw4rGGIthBwGWGyqkFBboJAaqxUGO2xlqRHIeaSbAjjgx6p68P
+# fPRdph6LHjYMZW48gUzfb9DMS/wJdH0oPTIy7SRcAtkh0NphKjRSSm8ninvaIsB3
+# rcnP7r5kM4RVirPOhKxBWrFmBSSvWp9cnD+/pwZUFy4geRTGQZHuat+m9R4IGsnr
+# vu7rpBSUnCPUykGHbDnhtejR0CIUybyw+jJSYHFuC781vcD7Dx+mRghrxIdhAEFF
+# LZabheNE0tr+MaHzNvOOQo9jf5MliCO8c62caH3VF72iYi8eGE8U0kXn5ToA
 # SIG # End signature block
