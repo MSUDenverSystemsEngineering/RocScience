@@ -68,7 +68,7 @@ Try {
 	[string]$appVendor = 'Rocscience'
 	[string]$appName = 'Suite'
 	[string]$appVersion = '2021'
-	[string]$appArch = 'x86'
+	[string]$appArch = 'x64'
 	[string]$appLang = 'EN'
 	[string]$appRevision = '01'
 	[string]$appScriptVersion = '3.8.3'
@@ -127,12 +127,16 @@ Try {
 		Show-InstallationProgress
 
 		## <Perform Pre-Installation tasks here>
-		$exitCode = Execute-Process -Path "$dirFiles\rss1070j17s.exe" -Parameters "/s /a /s /f1c:\uninstall.iss" -WindowStyle "Hidden" -PassThru
-        If (($exitCode.ExitCode -ne "0") -and ($mainExitCode -ne "3010")) { $mainExitCode = $exitCode.ExitCode }
+		
+		Copy-Item -Path "$dirFiles\uninstall.iss" -Destination "C:\"
+		Copy-Item -Path "$dirFiles\setup.iss" -Destination "C:\"
 
-        Remove-File -Path "C:\install.iss"
-        Remove-File -Path "C:\uninstall.iss"
-        Remove-Folder -Path "C:\ISS"
+		##$exitCode = Execute-Process -Path "$dirFiles\rss1089n09s.exe" -Parameters "/s /a /s /f1c:\uninstall.iss"  -WindowStyle "Hidden" -PassThru
+        ##If (($exitCode.ExitCode -ne "0") -and ($mainExitCode -ne "3010")) { $mainExitCode = $exitCode.ExitCode }
+
+        ##Remove-File -Path "C:\install.iss"
+        ##Remove-File -Path "C:\uninstall.iss"
+        ##Remove-Folder -Path "C:\ISS"
 
 		##*===============================================
 		##* INSTALLATION
@@ -197,7 +201,7 @@ Try {
 
         Remove-File -Path "C:\install.iss"
         Remove-File -Path "C:\uninstall.iss"
-        Remove-Folder -Path "C:\ISS"
+       
 
 
 		##*===============================================
