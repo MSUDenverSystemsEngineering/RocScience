@@ -193,12 +193,12 @@ Try {
 		}
 
 		# <Perform Uninstallation tasks here>
-		Execute-MSI -Action Uninstall -Path '{F4ABABFA-2281-4778-A920-B04BB07C2DBC}'
-	##$exitCode = Execute-Process -Path "$dirFiles\rss1089n09s.exe" -Parameters "/s /a /s /f1c:\uninstall.iss" -WindowStyle "Hidden" -PassThru
-        ##If (($exitCode.ExitCode -ne "0") -and ($mainExitCode -ne "3010")) { $mainExitCode = $exitCode.ExitCode }
+		##Execute-MSI -Action Uninstall -Path '{F4ABABFA-2281-4778-A920-B04BB07C2DBC}'
+		$exitCode = Execute-Process -Path "$dirFiles\rss1089n09s.exe" -Parameters "/s /a /s /f1c:\uninstall.iss" -WindowStyle "Hidden" -PassThru
+        If (($exitCode.ExitCode -ne "0") -and ($mainExitCode -ne "3010")) { $mainExitCode = $exitCode.ExitCode }
 
-        ##Remove-File -Path "C:\install.iss"
-        ##Remove-File -Path "C:\uninstall.iss"
+        Remove-File -Path "C:\install.iss"
+        Remove-File -Path "C:\uninstall.iss"
 
 
 		##*===============================================
