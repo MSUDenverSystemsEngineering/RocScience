@@ -148,8 +148,8 @@ Try {
 		}
 
 		## <Perform Installation tasks here>
-		$exitCode = Execute-Process -Path "$dirFiles\rss1089n09s.exe" -Parameters "/s /a /s /f1c:\setup.iss" -WindowStyle "Hidden" -PassThru
-        If (($exitCode.ExitCode -ne "0") -and ($mainExitCode -ne "3010")) { $mainExitCode = $exitCode.ExitCode }
+		Execute-Process -Path "$dirFiles\rss1089n09s.exe" -Parameters "/s /a /s /f1c:\setup.iss" -WindowStyle "Hidden" -PassThru
+
 
         Copy-File -Path "$dirSupportFiles\hasplm.ini" -Destination "$envProgramFilesx86\Common Files\Aladdin Shared\HASP\hasplm.ini"
 
@@ -193,8 +193,8 @@ Try {
 		}
 
 		# <Perform Uninstallation tasks here>
-		$exitCode = Execute-Process -Path "$dirFiles\rss1089n09s.exe" -Parameters "/s /a /s /uninst /f1c:\uninstall.iss" -WindowStyle "Hidden" -PassThru Wait-Process
-        If (($exitCode.ExitCode -ne "0") -and ($mainExitCode -ne "3010")) { $mainExitCode = $exitCode.ExitCode }
+		Execute-Process -Path "$dirFiles\rss1089n09s.exe" -Parameters "/s /a /s /uninst /f1c:\uninstall.iss" -WindowStyle "Hidden" -PassThru Wait-Process
+        
 
         Remove-File -Path "C:\install.iss"
         Remove-File -Path "C:\uninstall.iss"
