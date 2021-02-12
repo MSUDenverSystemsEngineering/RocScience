@@ -131,7 +131,6 @@ Try {
 		Copy-Item -Path "$dirFiles\setup.iss" -Destination "C:\"
 
 
-
 		##*===============================================
 		##* INSTALLATION
 		##*===============================================
@@ -145,11 +144,12 @@ Try {
 
 		## <Perform Installation tasks here>
 		$exitCode = Execute-Process -Path "$dirFiles\rss1089n09s.exe" -Parameters "/s /a /s /f1c:\setup.iss" -WindowStyle "Hidden" -PassThru
-        If (($exitCode.ExitCode -ne "0") -and ($mainExitCode -ne "3010")) { $mainExitCode = $exitCode.ExitCode }
-
-        Copy-File -Path "$dirSupportFiles\hasplm.ini" -Destination "$envProgramFilesx86\Common Files\Aladdin Shared\HASP\hasplm.ini"
-
-        Execute-Process -Path "$envProgramFiles\Internet Explorer\iexplore.exe" -Parameters "http://localhost:1947" -NoWait
+		If (($exitCode.ExitCode -ne "0") -and ($mainExitCode -ne "3010")) { $mainExitCode = $exitCode.ExitCode }
+		
+		
+		Copy-File -Path "$dirSupportFiles\hasplm.ini" -Destination "$envProgramFilesx86\Common Files\Aladdin Shared\HASP\hasplm.ini"
+		
+		Execute-Process -Path "$envProgramFiles\Internet Explorer\iexplore.exe" -Parameters "http://localhost:1947" -NoWait
 
 
 		##*===============================================
@@ -195,9 +195,9 @@ Try {
         If (($exitCode.ExitCode -ne "0") -and ($mainExitCode -ne "3010")) { $mainExitCode = $exitCode.ExitCode }
 		
 		"{FCC74B77-EC3E-4DD8-A80B-008A702075A9"
-
-        Remove-File -Path "C:\install.iss"
-        Remove-File -Path "C:\uninstall.iss"
+		
+		Remove-File -Path "C:\install.iss"
+		Remove-File -Path "C:\uninstall.iss"
 
 
 		##*===============================================
