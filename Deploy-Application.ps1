@@ -76,7 +76,7 @@ Try {
     [string]$appLang = 'EN'
     [string]$appRevision = '01'
     [string]$appScriptVersion = '1.0.0'
-    [string]$appScriptDate = '06/13/2023'
+    [string]$appScriptDate = '06/04/2026'
     [string]$appScriptAuthor = 'Will Jarvill'
     ##*===============================================
     ## Variables: Install Titles (Only set here to override defaults set by the toolkit)
@@ -169,7 +169,7 @@ Try {
         }
 
         ## <Perform Installation tasks here>
-        $exitCode = Execute-Process -Path "$dirFiles\rss1097s29s.exe" -Parameters "/s /a /s /f1c:\setup.iss" -WindowStyle "Hidden" -PassThru
+        $exitCode = Execute-Process -Path "$dirFiles\setup.exe" -Parameters "/s /a /s /f1c:\setup.iss" -WindowStyle "Hidden" -PassThru
         If (($exitCode.ExitCode -ne "0") -and ($mainExitCode -ne "3010")) {$mainExitCode = $exitCode.ExitCode}
 
         Copy-File -Path "$dirSupportFiles\hasplm.ini" -Destination "$envProgramFilesx86\Common Files\Aladdin Shared\HASP\hasplm.ini"
@@ -180,6 +180,36 @@ Try {
         [String]$installPhase = 'Post-Installation'
 
         ## <Perform Post-Installation tasks here>
+		#Test if HASP configuration file is present already (some other applications install it, like RocScience), if so, make sure server values are listed.
+
+		$file = 'C:\Program Files (x86)\Common Files\Aladdin Shared\HASP\hasplm.ini'
+		$string = "147.153.19.138"
+		$find = '[REMOTE]'
+		$replace = '[REMOTE]
+		broadcastsearch = 1
+		serversearchinterval = 30
+		serveraddr = 147.153.19.138'
+
+		If (Test-Path $file) {
+			$fileContent = Get-Content $file
+				if ($fileContent.Contains($string)) {
+    				Write-Log -Message "The license server information already exists." -Source 'Post-Installation' -LogType 'CMTrace'
+				}
+				else{
+					(Get-Content $file).replace($find, $replace) | Set-Content $file
+					Write-Log -Message "Writing license server information to HASP file." -Source 'Post-Installation' -LogType 'CMTrace'
+				}
+		}
+		# If the file is not there, create it
+		Else {
+			New-Item $file
+			Set-Content $file $replace
+			Write-Log -Message "License Server configuration file added." -Source 'Post-Installation' -LogType 'CMTrace'
+		}
+
+		# Restarts HASP service to activate new values written to the ini
+		Restart-Service hasplms -PassThru
+
 
         ## Display a message at the end of the install
         ## See original PSADT Deploy-Application.ps1 file from GitHub if you want to use this feature
